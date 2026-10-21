@@ -83,6 +83,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/checkout/**").hasAnyRole("CLIENTE", "ADMIN")
                         .requestMatchers("/carrito", "/carrito.html").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers("/usuario/**").hasAnyRole("CLIENTE", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
