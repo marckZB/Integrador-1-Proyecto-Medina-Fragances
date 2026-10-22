@@ -6,14 +6,8 @@ import com.medina.fragrances.fragrance_app.model.Usuario;
 import com.medina.fragrances.fragrance_app.service.ContactoService;
 import com.medina.fragrances.fragrance_app.service.PedidoService;
 import com.medina.fragrances.fragrance_app.service.ProductoService;
-import com.medina.fragrances.fragrance_app.service.ReporteVentasService;
 import com.medina.fragrances.fragrance_app.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,9 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.net.URI;
-import java.time.YearMonth;
-import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -38,18 +29,15 @@ public class AdminController {
     private final PedidoService pedidoService;
     private final UsuarioService usuarioService;
     private final ContactoService contactoService;
-    private final ReporteVentasService reporteVentasService;
 
     public AdminController(ProductoService productoService,
                            PedidoService pedidoService,
                            UsuarioService usuarioService,
-                           ContactoService contactoService,
-                           ReporteVentasService reporteVentasService) {
+                           ContactoService contactoService) {
         this.productoService = productoService;
         this.pedidoService = pedidoService;
         this.usuarioService = usuarioService;
         this.contactoService = contactoService;
-        this.reporteVentasService = reporteVentasService;
     }
 
     @GetMapping("/admin")
@@ -97,7 +85,6 @@ public class AdminController {
         model.addAttribute("ventasTotales", ventasTotales);
         model.addAttribute("stockBajo", stockBajo);
         model.addAttribute("pedidosPendientes", pedidoService.listarPorEstado("PENDIENTE").size());
-        model.addAttribute("mesActual", YearMonth.now().toString());
         return "admin/dashboard";
     }
 
@@ -155,35 +142,6 @@ public class AdminController {
             productoService.guardar(producto);
         }
         return "redirect:/admin#pedidos";
-    }
-
-    @GetMapping("/admin/ventas/exportar")
-    public ResponseEntity<byte[]> exportarVentasMes(@RequestParam(value = "mes", required = false) String mes,
-                                                    HttpSession session) {
-        if (!esAdmin(session)) {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create("/login?redirect=/admin"))
-                    .build();
-        }
-
-        // El input type="month" envia el valor como "2026-10"
-        YearMonth periodo;
-        try {
-            periodo = (mes == null || mes.isBlank()) ? YearMonth.now() : YearMonth.parse(mes);
-        } catch (DateTimeParseException e) {
-            periodo = YearMonth.now();
-        }
-
-        byte[] contenido = reporteVentasService.generarExcelVentasMes(periodo);
-        String nombreArchivo = "ventas-" + periodo + ".xlsx";
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        ContentDisposition.attachment().filename(nombreArchivo).build().toString())
-                .contentType(MediaType.parseMediaType(
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .contentLength(contenido.length)
-                .body(contenido);
     }
 
     @PostMapping("/admin/perfil")
