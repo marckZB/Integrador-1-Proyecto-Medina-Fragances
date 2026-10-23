@@ -73,16 +73,13 @@
             <strong th:text="${totalPedidos}">0</strong>
           </article>
           <article class="user-metric">
-            <i class="bi bi-cash-coin"></i>
-            <span>Total gastado</span>
-            <strong
-              th:text="'S/. ' + ${#numbers.formatDecimal(totalGastado, 1, 2)}"
-              >S/. 0.00</strong
-            >
+            <i class="bi bi-bag-check"></i>
+            <span>Pedidos entregados</span>
+            <strong th:text="${pedidosEntregados}">0</strong>
           </article>
           <article class="user-metric">
             <i class="bi bi-clock-history"></i>
-            <span>En proceso</span>
+            <span>Pendientes</span>
             <strong th:text="${pedidosPendientes}">0</strong>
           </article>
         </section>
