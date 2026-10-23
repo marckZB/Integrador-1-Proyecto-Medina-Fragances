@@ -50,15 +50,11 @@ public class UsuarioController {
         List<Pedido> pedidos = pedidoService.listarPorUsuarioOrdenado(usuario);
 
         long totalPedidos = pedidos.size();
-        double totalGastado = pedidos.stream()
-                .filter(p -> p.getEstado() == null || !"CANCELADO".equals(p.getEstado()))
-                .map(Pedido::getTotal)
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .sum();
+        long pedidosEntregados = pedidos.stream()
+                .filter(p -> "ENTREGADO".equals(p.getEstado()))
+                .count();
         long pedidosPendientes = pedidos.stream()
-                .filter(p -> "PENDIENTE".equals(p.getEstado()) || "PAGADO".equals(p.getEstado())
-                        || "ENVIADO".equals(p.getEstado()))
+                .filter(p -> "PENDIENTE".equals(p.getEstado()))
                 .count();
         List<Pedido> ultimosPedidos = pedidos.stream()
                 .limit(3)
@@ -66,7 +62,7 @@ public class UsuarioController {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("totalPedidos", totalPedidos);
-        model.addAttribute("totalGastado", totalGastado);
+        model.addAttribute("pedidosEntregados", pedidosEntregados);
         model.addAttribute("pedidosPendientes", pedidosPendientes);
         model.addAttribute("ultimosPedidos", ultimosPedidos);
         return "usuario/dashboard";
