@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Pedidos - Medina Fragrances</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/Styles.css}" />
+  </head>
+  <body class="user-body">
+    <div class="user-shell">
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="user-sidebar">
+        <a th:href="@{/usuario}" class="user-brand">MEDINA</a>
+        <p>Mi cuenta</p>
+
+        <nav class="user-nav">
+          <a th:href="@{/usuario}"><i class="bi bi-grid-1x2"></i> Resumen</a>
+          <a th:href="@{/usuario/perfil}"
+            ><i class="bi bi-person"></i> Mi perfil</a
+          >
+          <a th:href="@{/usuario/pedidos}" class="active"
+            ><i class="bi bi-receipt"></i> Mis pedidos</a
+          >
+          <a th:href="@{/usuario/password}"
+            ><i class="bi bi-shield-lock"></i> Seguridad</a
+          >
+        </nav>
+
+        <div class="user-sidebar-footer">
+          <a th:href="@{/}" class="user-ghost-link"
+            ><i class="bi bi-shop"></i> Ver tienda</a
+          >
+          <a th:href="@{/cerrar-sesion}" class="user-logout"
+            ><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a
+          >
+        </div>
+      </aside>
+
+      <!-- ===== MAIN ===== -->
+      <main class="user-main">
+        <header class="user-topbar">
+          <div>
+            <span class="user-kicker">Historial</span>
+            <h1>Mis pedidos</h1>
+          </div>
+          <div class="user-user">
+            <span th:text="${usuario.nombre}">Cliente</span>
+            <small th:text="${usuario.email}">email@ejemplo.com</small>
+          </div>
+        </header>
+
+        <!-- ===== MENSAJES FLASH ===== -->
+        <div
+          class="user-alert user-alert-success"
+          th:if="${mensajeExito}"
+          th:text="${mensajeExito}"
+        ></div>
+        <div
+          class="user-alert user-alert-danger"
+          th:if="${mensajeError}"
+          th:text="${mensajeError}"
+        ></div>
+
+        <!-- ===== RESUMEN ===== -->
+        <section class="user-card user-section">
+          <div class="user-section-head">
+            <div>
+              <span class="user-kicker">Resumen</span>
+              <h2>
+                <span th:text="${#lists.size(pedidos)}">0</span>
+                <span
+                  th:text="${#lists.size(pedidos) == 1 ? 'pedido' : 'pedidos'}"
+                  >pedidos</span
+                >
+                en tu historial
+              </h2>
+            </div>
+            <a
+              th:href="@{/catalogo}"
+              class="user-ghost-link"
+              style="
+                color: #1a1a1a;
+                border: 1px solid rgba(26, 26, 26, 0.16);
+                padding: 0.7rem 1.1rem;
+              "
+            >
+              <i class="bi bi-bag-plus"></i> Seguir comprando
+            </a>
+          </div>
+
+          <!-- ESTADO VACÍO -->
+          <div
+            th:if="${#lists.isEmpty(pedidos)}"
+            style="text-align: center; padding: 40px 20px"
+          >
+            <i
+              class="bi bi-bag-x"
+              style="
+                font-size: 3rem;
+                color: #c5a059;
+                display: block;
+                margin-bottom: 14px;
+              "
+            ></i>
+            <p style="color: #6b6b6b; margin-bottom: 16px">
+              Aún no tienes pedidos registrados.
+            </p>
+            <a
+              th:href="@{/catalogo}"
+              class="user-submit"
+              style="text-decoration: none"
+            >
+              <i class="bi bi-grid"></i> Explorar catálogo
+            </a>
+          </div>
+
+          <!-- TABLA -->
+          <div class="user-table-wrap" th:if="${!#lists.isEmpty(pedidos)}">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Pedido</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th style="text-align: right">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                  <td>
+                    <strong th:text="'#' + ${pedido.id}">#1</strong>
+                  </td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px">
+                      <img
+                        th:src="${pedido.producto.imageUrl != null ? pedido.producto.imageUrl : '/img/placeholder-product.webp'}"
+                        th:alt="${pedido.producto.nombre}"
+                        style="
+                          width: 44px;
+                          height: 44px;
+                          object-fit: contain;
+                          border-radius: 10px;
+                          background: #fff;
+                          padding: 4px;
+                        "
+                      />
+                      <div style="min-width: 0">
+                        <strong
+                          th:text="${pedido.producto.nombre}"
+                          style="
+                            display: block;
+                            font-size: 0.9rem;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 280px;
+                          "
+                        >
+                          Producto
+                        </strong>
+                        <small
+                          th:text="${pedido.producto.marca}"
+                          style="
+                            display: block;
+                            color: #6b6b6b;
+                            font-size: 0.76rem;
+                          "
+                        >
+                          Marca
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+                  <td th:text="${pedido.cantidad}">1</td>
+                  <td>
+                    <strong
+                      th:text="'S/. ' + ${#numbers.formatDecimal(pedido.total, 1, 2)}"
+                      style="color: #8a6b2a"
+                      >S/. 0.00</strong
+                    >
+                  </td>
+                  <td>
+                    <span
+                      th:text="${pedido.fecha != null ? #temporals.format(pedido.fecha, 'dd/MM/yyyy') : '-'}"
+                      >-</span
+                    >
+                    <small
+                      th:if="${pedido.fecha != null}"
+                      th:text="${#temporals.format(pedido.fecha, 'HH:mm')}"
+                      style="display: block; color: #6b6b6b; font-size: 0.75rem"
+                      >-</small
+                    >
+                  </td>
+                  <td>
+                    <span
+                      class="user-badge"
+                      th:classappend="' user-badge-' + ${#strings.toLowerCase(pedido.estado)}"
+                      th:text="${pedido.estado}"
+                      >PENDIENTE</span
+                    >
+                  </td>
+                  <td style="text-align: right">
+                    <a
+                      th:href="@{/usuario/pedidos/{id}(id=${pedido.id})}"
+                      class="user-icon-btn"
+                      title="Ver detalle"
+                    >
+                      <i class="bi bi-arrow-right"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
