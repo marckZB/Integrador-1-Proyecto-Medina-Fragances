@@ -58,4 +58,33 @@ public class PedidoService {
             pedidoRepository.save(pedido);
         });
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Historial de pedidos del cliente ordenado del mas reciente al mas antiguo.
+     * Usado en /usuario/pedidos y en el dashboard del cliente.
+     */
+    @Transactional(readOnly = true)
+    public List<Pedido> listarPorUsuarioOrdenado(Usuario usuario) {
+        return pedidoRepository.findByUsuarioOrderByFechaDesc(usuario);
+    }
+
+    /**
+     * Devuelve un pedido SOLO si pertenece al usuario indicado.
+     * Evita que un cliente vea pedidos ajenos manipulando la URL
+     * /usuario/pedidos/{id}.
+     */
+    @Transactional(readOnly = true)
+    public Optional<Pedido> buscarPedidoDeUsuario(Integer pedidoId, Usuario usuario) {
+        if (pedidoId == null || usuario == null) {
+            return Optional.empty();
+        }
+        return pedidoRepository.findById(pedidoId)
+                .filter(pedido -> pedido.getUsuario() != null
+                        && pedido.getUsuario().getId() != null
+                        && pedido.getUsuario().getId().equals(usuario.getId()));
+    }
+
+>>>>>>> origin/seccion_usuario
 }

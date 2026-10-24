@@ -120,6 +120,62 @@ public class UsuarioService {
     }
 
     private boolean esPasswordBCrypt(String password) {
+<<<<<<< HEAD
         return password != null && (password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$"));
     }
+=======
+        return password != null
+                && (password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$"));
+    }
+
+    /**
+     * Actualiza los datos editables del perfil del cliente.
+     * NO toca password (eso se hace en cambiarPassword).
+     */
+    @Transactional
+    public Usuario actualizarPerfil(Integer id, String nombre, String telefono, String direccion) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + id));
+
+        usuario.setNombre(nombre);
+        usuario.setTelefono(telefono);
+        usuario.setDireccion(direccion);
+        // email, dni, password y rol se preservan intactos
+        return usuarioRepository.save(usuario);
+    }
+
+    /**
+     * Cambia la contrasena del usuario verificando primero la actual.
+     * Devuelve true si el cambio se realizo, false si la contrasena actual no
+     * coincide.
+     */
+    @Transactional
+    public boolean cambiarPassword(Integer id, String passwordActual, String passwordNueva) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            return false;
+        }
+
+        Usuario usuario = usuarioOpt.get();
+        if (!passwordEncoder.matches(passwordActual, usuario.getPassword())) {
+            return false;
+        }
+
+        usuario.setPassword(passwordEncoder.encode(passwordNueva));
+        usuarioRepository.save(usuario);
+        return true;
+    }
+
+    /**
+     * Compara una contrasena en texto plano contra la almacenada (BCrypt).
+     */
+    @Transactional(readOnly = true)
+    public boolean verificarPassword(Usuario usuario, String passwordRaw) {
+        if (usuario == null || usuario.getPassword() == null || passwordRaw == null) {
+            return false;
+        }
+        return passwordEncoder.matches(passwordRaw, usuario.getPassword());
+    }
+
+>>>>>>> origin/seccion_usuario
 }

@@ -83,6 +83,10 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/checkout/**").hasAnyRole("CLIENTE", "ADMIN")
                         .requestMatchers("/carrito", "/carrito.html").hasAnyRole("CLIENTE", "ADMIN")
+<<<<<<< HEAD
+=======
+                        .requestMatchers("/usuario/**").hasAnyRole("CLIENTE", "ADMIN")
+>>>>>>> origin/seccion_usuario
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -148,4 +152,8 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/api/**", configuration);
         return source;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/seccion_usuario
