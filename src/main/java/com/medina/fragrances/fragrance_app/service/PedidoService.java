@@ -58,8 +58,6 @@ public class PedidoService {
             pedidoRepository.save(pedido);
         });
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Historial de pedidos del cliente ordenado del mas reciente al mas antiguo.
@@ -86,5 +84,4 @@ public class PedidoService {
                         && pedido.getUsuario().getId().equals(usuario.getId()));
     }
 
->>>>>>> origin/seccion_usuario
 }

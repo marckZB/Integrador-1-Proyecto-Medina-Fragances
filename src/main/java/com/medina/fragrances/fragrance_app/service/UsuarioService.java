@@ -120,10 +120,6 @@ public class UsuarioService {
     }
 
     private boolean esPasswordBCrypt(String password) {
-<<<<<<< HEAD
-        return password != null && (password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$"));
-    }
-=======
         return password != null
                 && (password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$"));
     }
@@ -177,5 +173,4 @@ public class UsuarioService {
         return passwordEncoder.matches(passwordRaw, usuario.getPassword());
     }
 
->>>>>>> origin/seccion_usuario
 }

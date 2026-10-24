@@ -6,10 +6,6 @@ import com.medina.fragrances.fragrance_app.model.Usuario;
 import com.medina.fragrances.fragrance_app.service.ContactoService;
 import com.medina.fragrances.fragrance_app.service.PedidoService;
 import com.medina.fragrances.fragrance_app.service.ProductoService;
-<<<<<<< HEAD
-import com.medina.fragrances.fragrance_app.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
-=======
 import com.medina.fragrances.fragrance_app.service.ReporteVentasService;
 import com.medina.fragrances.fragrance_app.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
->>>>>>> origin/seccion_usuario
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,12 +24,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-<<<<<<< HEAD
-=======
 import java.net.URI;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
->>>>>>> origin/seccion_usuario
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -46,28 +38,18 @@ public class AdminController {
     private final PedidoService pedidoService;
     private final UsuarioService usuarioService;
     private final ContactoService contactoService;
-<<<<<<< HEAD
-=======
     private final ReporteVentasService reporteVentasService;
->>>>>>> origin/seccion_usuario
 
     public AdminController(ProductoService productoService,
                            PedidoService pedidoService,
                            UsuarioService usuarioService,
-<<<<<<< HEAD
-                           ContactoService contactoService) {
-=======
                            ContactoService contactoService,
                            ReporteVentasService reporteVentasService) {
->>>>>>> origin/seccion_usuario
         this.productoService = productoService;
         this.pedidoService = pedidoService;
         this.usuarioService = usuarioService;
         this.contactoService = contactoService;
-<<<<<<< HEAD
-=======
         this.reporteVentasService = reporteVentasService;
->>>>>>> origin/seccion_usuario
     }
 
     @GetMapping("/admin")
@@ -115,10 +97,7 @@ public class AdminController {
         model.addAttribute("ventasTotales", ventasTotales);
         model.addAttribute("stockBajo", stockBajo);
         model.addAttribute("pedidosPendientes", pedidoService.listarPorEstado("PENDIENTE").size());
-<<<<<<< HEAD
-=======
         model.addAttribute("mesActual", YearMonth.now().toString());
->>>>>>> origin/seccion_usuario
         return "admin/dashboard";
     }
 
@@ -178,8 +157,6 @@ public class AdminController {
         return "redirect:/admin#pedidos";
     }
 
-<<<<<<< HEAD
-=======
     @GetMapping("/admin/ventas/exportar")
     public ResponseEntity<byte[]> exportarVentasMes(@RequestParam(value = "mes", required = false) String mes,
                                                     HttpSession session) {
@@ -209,7 +186,6 @@ public class AdminController {
                 .body(contenido);
     }
 
->>>>>>> origin/seccion_usuario
     @PostMapping("/admin/perfil")
     public String actualizarPerfil(@ModelAttribute Usuario adminForm, HttpSession session) {
         if (!esAdmin(session)) {
@@ -262,8 +238,4 @@ public class AdminController {
 
         return usuarioService.asegurarAdminPrincipal();
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/seccion_usuario
