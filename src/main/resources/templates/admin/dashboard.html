@@ -76,6 +76,12 @@
                 <a th:href="@{/admin#productos}" class="admin-ghost-link" th:if="${productoForm.id != null}">Nuevo producto</a>
             </div>
 
+            <form th:action="@{/admin/reportes/inventario}" method="get" class="d-flex align-items-center flex-wrap gap-3 my-4">
+                <button type="submit" class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Reporte de inventario
+                </button>
+            </form>
+
             <form th:action="@{/admin/productos/guardar}" th:object="${productoForm}" method="post" class="admin-product-form">
                 <input type="hidden" th:field="*{id}">
                 <label>Nombre <input type="text" th:field="*{nombre}" required></label>
@@ -143,6 +149,26 @@
                 </div>
                 <span class="admin-pill danger" th:text="${pedidosPendientes} + ' pendientes'">0 pendientes</span>
             </div>
+
+            <form th:action="@{/admin/ventas/exportar}" method="get" class="d-flex align-items-center flex-wrap gap-3 my-4">
+                <input type="month" name="mes" class="form-control w-auto" style="min-width: 180px;"
+                       th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM')}" required>
+                <button type="submit" class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Descargar ventas del mes
+                </button>
+                <button type="submit" th:attr="formaction=@{/admin/reportes/productos-solicitados}" formnovalidate
+                        class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Reporte de productos más solicitados
+                </button>
+                <button type="submit" th:attr="formaction=@{/admin/reportes/pedidos-pendientes}" formnovalidate
+                        class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Reporte de pedidos pendientes
+                </button>
+                <button type="submit" th:attr="formaction=@{/admin/reportes/envios}" formnovalidate
+                        class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Reporte de envíos y despachos
+                </button>
+            </form>
 
             <form th:action="@{/admin/pedidos/crear}" method="post" class="admin-order-form">
                 <label>Cliente
@@ -222,6 +248,12 @@
                     <h2>Clientes registrados</h2>
                 </div>
             </div>
+
+            <form th:action="@{/admin/reportes/clientes}" method="get" class="d-flex align-items-center flex-wrap gap-3 my-4">
+                <button type="submit" class="admin-primary-btn px-4 py-2 text-nowrap">
+                    Reporte de clientes registrados
+                </button>
+            </form>
             <div class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>

@@ -7,6 +7,7 @@ import com.medina.fragrances.fragrance_app.service.ContactoService;
 import com.medina.fragrances.fragrance_app.service.PedidoService;
 import com.medina.fragrances.fragrance_app.service.ProductoService;
 import com.medina.fragrances.fragrance_app.service.ReporteVentasService;
+import com.medina.fragrances.fragrance_app.service.ReportesAdminService;
 import com.medina.fragrances.fragrance_app.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ContentDisposition;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
 import java.util.Comparator;
@@ -39,17 +41,20 @@ public class AdminController {
     private final UsuarioService usuarioService;
     private final ContactoService contactoService;
     private final ReporteVentasService reporteVentasService;
+    private final ReportesAdminService reportesAdminService;
 
     public AdminController(ProductoService productoService,
                            PedidoService pedidoService,
                            UsuarioService usuarioService,
                            ContactoService contactoService,
-                           ReporteVentasService reporteVentasService) {
+                           ReporteVentasService reporteVentasService,
+                           ReportesAdminService reportesAdminService) {
         this.productoService = productoService;
         this.pedidoService = pedidoService;
         this.usuarioService = usuarioService;
         this.contactoService = contactoService;
         this.reporteVentasService = reporteVentasService;
+        this.reportesAdminService = reportesAdminService;
     }
 
     @GetMapping("/admin")
@@ -186,6 +191,47 @@ public class AdminController {
                 .body(contenido);
     }
 
+    @GetMapping("/admin/reportes/inventario")
+    public ResponseEntity<byte[]> reporteInventario(HttpSession session) {
+        if (!esAdmin(session)) {
+            return redirigirALogin();
+        }
+        return respuestaExcel(reportesAdminService.generarReporteInventario(), "inventario");
+    }
+
+    @GetMapping("/admin/reportes/productos-solicitados")
+    public ResponseEntity<byte[]> reporteProductosSolicitados(HttpSession session) {
+        if (!esAdmin(session)) {
+            return redirigirALogin();
+        }
+        return respuestaExcel(reportesAdminService.generarReporteProductosMasSolicitados(),
+                "productos-mas-solicitados");
+    }
+
+    @GetMapping("/admin/reportes/pedidos-pendientes")
+    public ResponseEntity<byte[]> reportePedidosPendientes(HttpSession session) {
+        if (!esAdmin(session)) {
+            return redirigirALogin();
+        }
+        return respuestaExcel(reportesAdminService.generarReportePedidosPendientes(), "pedidos-pendientes");
+    }
+
+    @GetMapping("/admin/reportes/envios")
+    public ResponseEntity<byte[]> reporteEnvios(HttpSession session) {
+        if (!esAdmin(session)) {
+            return redirigirALogin();
+        }
+        return respuestaExcel(reportesAdminService.generarReporteEnvios(), "envios-despachos");
+    }
+
+    @GetMapping("/admin/reportes/clientes")
+    public ResponseEntity<byte[]> reporteClientes(HttpSession session) {
+        if (!esAdmin(session)) {
+            return redirigirALogin();
+        }
+        return respuestaExcel(reportesAdminService.generarReporteClientes(), "clientes-registrados");
+    }
+
     @PostMapping("/admin/perfil")
     public String actualizarPerfil(@ModelAttribute Usuario adminForm, HttpSession session) {
         if (!esAdmin(session)) {
@@ -208,6 +254,23 @@ public class AdminController {
         session.setAttribute("rolUsuario", "ADMIN");
         session.setAttribute("adminAutenticado", true);
         return "redirect:/admin#configuracion";
+    }
+
+    private ResponseEntity<byte[]> redirigirALogin() {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("/login?redirect=/admin"))
+                .build();
+    }
+
+    private ResponseEntity<byte[]> respuestaExcel(byte[] contenido, String nombreBase) {
+        String nombreArchivo = nombreBase + "-" + LocalDate.now() + ".xlsx";
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename(nombreArchivo).build().toString())
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .contentLength(contenido.length)
+                .body(contenido);
     }
 
     private boolean esAdmin(HttpSession session) {
