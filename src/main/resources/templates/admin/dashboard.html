@@ -144,6 +144,14 @@
                 <span class="admin-pill danger" th:text="${pedidosPendientes} + ' pendientes'">0 pendientes</span>
             </div>
 
+            <form th:action="@{/admin/ventas/exportar}" method="get" class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                <input type="month" name="mes" class="form-control form-control-sm w-auto"
+                       th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM')}" required>
+                <button type="submit" class="admin-primary-btn">
+                    <i class="bi bi-file-earmark-excel"></i> Descargar ventas del mes
+                </button>
+            </form>
+
             <form th:action="@{/admin/pedidos/crear}" method="post" class="admin-order-form">
                 <label>Cliente
                     <select name="usuarioId" required>
