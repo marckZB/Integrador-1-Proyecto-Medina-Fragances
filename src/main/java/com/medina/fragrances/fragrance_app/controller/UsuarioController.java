@@ -40,33 +40,37 @@ public class UsuarioController {
     // DASHBOARD DEL CLIENTE
 
     @GetMapping({ "", "/" })
-    public String dashboard(HttpSession session, Model model) {
-        Optional<Usuario> usuarioOpt = obtenerUsuarioSesion(session);
-        if (usuarioOpt.isEmpty()) {
-            return "redirect:/login?redirect=/usuario";
-        }
-
-        Usuario usuario = usuarioOpt.get();
-        List<Pedido> pedidos = pedidoService.listarPorUsuarioOrdenado(usuario);
-
-        long totalPedidos = pedidos.size();
-        long pedidosEntregados = pedidos.stream()
-                .filter(p -> "ENTREGADO".equals(p.getEstado()))
-                .count();
-        long pedidosPendientes = pedidos.stream()
-                .filter(p -> "PENDIENTE".equals(p.getEstado()))
-                .count();
-        List<Pedido> ultimosPedidos = pedidos.stream()
-                .limit(3)
-                .toList();
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("totalPedidos", totalPedidos);
-        model.addAttribute("pedidosEntregados", pedidosEntregados);
-        model.addAttribute("pedidosPendientes", pedidosPendientes);
-        model.addAttribute("ultimosPedidos", ultimosPedidos);
-        return "usuario/dashboard";
+public String dashboard(HttpSession session, Model model) {
+    Optional<Usuario> usuarioOpt = obtenerUsuarioSesion(session);
+    if (usuarioOpt.isEmpty()) {
+        return "redirect:/login?redirect=/usuario";
     }
+
+    Usuario usuario = usuarioOpt.get();
+    List<Pedido> pedidos = pedidoService.listarPorUsuarioOrdenado(usuario);
+
+    long totalPedidos = pedidos.size();
+    long pedidosEntregados = pedidos.stream()
+            .filter(p -> "ENTREGADO".equals(p.getEstado()))
+            .count();
+    long pedidosPendientes = pedidos.stream()
+            .filter(p -> "PENDIENTE".equals(p.getEstado()))
+            .count();
+    long pedidosEnProceso = pedidos.stream()
+            .filter(p -> "PAGADO".equals(p.getEstado()) || "ENVIADO".equals(p.getEstado()))
+            .count();
+    List<Pedido> ultimosPedidos = pedidos.stream()
+            .limit(3)
+            .toList();
+
+    model.addAttribute("usuario", usuario);
+    model.addAttribute("totalPedidos", totalPedidos);
+    model.addAttribute("pedidosEntregados", pedidosEntregados);
+    model.addAttribute("pedidosPendientes", pedidosPendientes);
+    model.addAttribute("pedidosEnProceso", pedidosEnProceso);
+    model.addAttribute("ultimosPedidos", ultimosPedidos);
+    return "usuario/dashboard";
+}
 
     // PERFIL: VER Y EDITAR
 
