@@ -50,8 +50,7 @@ Si el proyecto está alojado en un repositorio Git, clónalo y entra a su carpet
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd "INTEGRADOR 1 - MEDINA FRAGANCES"
-```
+cd "Integrador-1-Proyecto-Medina-Fragances"
 
 Si ya descargaste el proyecto como archivo ZIP, descomprímelo y abre una terminal en la carpeta raíz, donde se encuentra `pom.xml`.
 
