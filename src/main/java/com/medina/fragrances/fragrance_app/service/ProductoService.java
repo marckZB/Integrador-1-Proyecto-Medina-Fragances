@@ -21,6 +21,14 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+    // Productos visibles (excluye los registros internos creados al comprar un decant)
+    @Transactional(readOnly = true)
+    public List<Producto> listarSinDecants() {
+        return productoRepository.findAll().stream()
+                .filter(p -> !"Decant".equalsIgnoreCase(p.getCategoria()))
+                .toList();
+    }
+
     @Transactional(readOnly = true)
     public Optional<Producto> buscarPorId(Integer id) {
         return productoRepository.findById(id);

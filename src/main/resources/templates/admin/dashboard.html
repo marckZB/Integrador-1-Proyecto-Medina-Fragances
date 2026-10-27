@@ -19,6 +19,7 @@
         <nav class="admin-nav">
             <a href="#resumen"><i class="bi bi-grid-1x2"></i> Resumen</a>
             <a href="#productos"><i class="bi bi-box-seam"></i> Productos</a>
+            <a href="#decants"><i class="bi bi-droplet"></i> Decants</a>
             <a href="#pedidos"><i class="bi bi-receipt"></i> Pedidos</a>
             <a href="#clientes"><i class="bi bi-people"></i> Clientes</a>
             <a href="#mensajes"><i class="bi bi-chat-dots"></i> Mensajes</a>
@@ -133,6 +134,73 @@
                             <a th:href="@{/admin(editarProducto=${producto.id})}" class="admin-icon-btn"><i class="bi bi-pencil"></i></a>
                             <form th:action="@{/admin/productos/eliminar/{id}(id=${producto.id})}" method="post">
                                 <button type="submit" class="admin-icon-btn danger" onclick="return confirm('Eliminar producto?')"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="decants" class="admin-section admin-card">
+            <div class="admin-section-head">
+                <div>
+                    <span class="admin-kicker">Muestras</span>
+                    <h2 th:text="${decantForm.id == null ? 'Decants' : 'Editar decant'}">Decants</h2>
+                </div>
+                <a th:href="@{/admin#decants}" class="admin-ghost-link" th:if="${decantForm.id != null}">Nuevo decant</a>
+            </div>
+
+            <form th:action="@{/admin/decants/guardar}" th:object="${decantForm}" method="post" class="admin-product-form">
+                <input type="hidden" th:field="*{id}">
+                <label>Nombre <input type="text" th:field="*{nombre}" required></label>
+                <label>Marca <input type="text" th:field="*{marca}" required></label>
+                <label>Tamaño
+                    <select th:field="*{tamano}">
+                        <option value="3ml">3ml</option>
+                        <option value="5ml">5ml</option>
+                        <option value="10ml">10ml</option>
+                    </select>
+                </label>
+                <label>Precio <input type="number" step="0.01" min="0.01" th:field="*{precio}" required></label>
+                <label>Stock <input type="number" min="0" th:field="*{stock}" required></label>
+                <label class="admin-field-wide">Imagen URL <input type="text" th:field="*{imageUrl}" placeholder="/img/Nombre.webp"></label>
+                <label class="admin-field-wide">Descripcion <textarea rows="3" th:field="*{descripcion}"></textarea></label>
+                <button type="submit" class="admin-primary-btn">
+                    <i class="bi bi-save"></i> Guardar decant
+                </button>
+            </form>
+
+            <div class="admin-table-wrap mt-4">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Decant</th>
+                        <th>Marca</th>
+                        <th>Tamaño</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="decant : ${decants}">
+                        <td>
+                            <div class="admin-product-cell">
+                                <img th:if="${decant.imageUrl != null and !decant.imageUrl.isBlank()}" th:src="@{${decant.imageUrl}}" th:alt="${decant.nombre}">
+                                <span th:text="${decant.nombre}">Decant</span>
+                            </div>
+                        </td>
+                        <td th:text="${decant.marca}">Marca</td>
+                        <td th:text="${decant.tamano}">3ml</td>
+                        <td th:text="${decant.precioFormateado}">S/. 0.00</td>
+                        <td>
+                            <span class="admin-pill" th:classappend="${decant.stock <= 5} ? ' danger' : ''" th:text="${decant.stock}">0</span>
+                        </td>
+                        <td class="admin-actions">
+                            <a th:href="@{/admin#decants(editarDecant=${decant.id})}" class="admin-icon-btn"><i class="bi bi-pencil"></i></a>
+                            <form th:action="@{/admin/decants/eliminar/{id}(id=${decant.id})}" method="post">
+                                <button type="submit" class="admin-icon-btn danger" onclick="return confirm('Eliminar decant?')"><i class="bi bi-trash"></i></button>
                             </form>
                         </td>
                     </tr>
