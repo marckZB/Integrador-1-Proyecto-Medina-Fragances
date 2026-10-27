@@ -36,7 +36,7 @@ public class CatalogController {
             model.addAttribute("productos", productoService.buscarPorCategoria(categoria));
             model.addAttribute("categoriaActiva", categoria);
         } else {
-            model.addAttribute("productos", productoService.listarTodos());
+            model.addAttribute("productos", productoService.listarSinDecants());
         }
 
         // Pasar nombre de usuario logueado al navbar

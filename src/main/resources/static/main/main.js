@@ -404,7 +404,7 @@ function buyNowFromModal() {
 function bindDecantCardModal() {
   document.querySelectorAll('.decant-card').forEach(card => {
     card.addEventListener('click', (event) => {
-      if (event.target.closest('button, a')) return;
+      if (event.target.closest('button:not(.btn-dynamic-decant), a')) return;
       openDecantModal(
         card.dataset.id,
         card.dataset.name,

@@ -1,9 +1,11 @@
 package com.medina.fragrances.fragrance_app.controller;
 
+import com.medina.fragrances.fragrance_app.model.Decant;
 import com.medina.fragrances.fragrance_app.model.Pedido;
 import com.medina.fragrances.fragrance_app.model.Producto;
 import com.medina.fragrances.fragrance_app.model.Usuario;
 import com.medina.fragrances.fragrance_app.service.ContactoService;
+import com.medina.fragrances.fragrance_app.service.DecantService;
 import com.medina.fragrances.fragrance_app.service.PedidoService;
 import com.medina.fragrances.fragrance_app.service.ProductoService;
 import com.medina.fragrances.fragrance_app.service.ReporteVentasService;
@@ -37,6 +39,7 @@ import java.util.Map;
 public class AdminController {
 
     private final ProductoService productoService;
+    private final DecantService decantService;
     private final PedidoService pedidoService;
     private final UsuarioService usuarioService;
     private final ContactoService contactoService;
@@ -44,12 +47,14 @@ public class AdminController {
     private final ReportesAdminService reportesAdminService;
 
     public AdminController(ProductoService productoService,
+                           DecantService decantService,
                            PedidoService pedidoService,
                            UsuarioService usuarioService,
                            ContactoService contactoService,
                            ReporteVentasService reporteVentasService,
                            ReportesAdminService reportesAdminService) {
         this.productoService = productoService;
+        this.decantService = decantService;
         this.pedidoService = pedidoService;
         this.usuarioService = usuarioService;
         this.contactoService = contactoService;
@@ -59,6 +64,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String dashboard(@RequestParam(value = "editarProducto", required = false) Integer editarProducto,
+                            @RequestParam(value = "editarDecant", required = false) Integer editarDecant,
                             HttpSession session,
                             Model model) {
         if (!esAdmin(session)) {
@@ -67,7 +73,7 @@ public class AdminController {
 
         productoService.cargarProductosIniciales();
 
-        List<Producto> productos = productoService.listarTodos();
+        List<Producto> productos = productoService.listarSinDecants();
         List<Pedido> pedidos = pedidoService.listarTodos().stream()
                 .sorted(Comparator.comparing(Pedido::getId, Comparator.nullsLast(Integer::compareTo)).reversed())
                 .toList();
@@ -95,6 +101,10 @@ public class AdminController {
         model.addAttribute("admin", admin);
         model.addAttribute("productoForm", productoForm);
         model.addAttribute("productos", productos);
+        model.addAttribute("decantForm", editarDecant == null
+                ? new Decant()
+                : decantService.buscarPorId(editarDecant).orElse(new Decant()));
+        model.addAttribute("decants", decantService.listarTodos());
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("clientes", clientes);
         model.addAttribute("mensajes", contactoService.listarTodos());
@@ -122,6 +132,24 @@ public class AdminController {
         }
         productoService.eliminar(id);
         return "redirect:/admin#productos";
+    }
+
+    @PostMapping("/admin/decants/guardar")
+    public String guardarDecant(@ModelAttribute Decant decant, HttpSession session) {
+        if (!esAdmin(session)) {
+            return "redirect:/login?redirect=/admin";
+        }
+        decantService.guardar(decant);
+        return "redirect:/admin#decants";
+    }
+
+    @PostMapping("/admin/decants/eliminar/{id}")
+    public String eliminarDecant(@PathVariable Integer id, HttpSession session) {
+        if (!esAdmin(session)) {
+            return "redirect:/login?redirect=/admin";
+        }
+        decantService.eliminar(id);
+        return "redirect:/admin#decants";
     }
 
     @PostMapping("/admin/pedidos/{id}/estado")

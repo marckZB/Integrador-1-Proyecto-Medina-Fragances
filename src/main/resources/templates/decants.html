@@ -483,6 +483,30 @@
               </div>
             </div>
           </div>
+
+          <!-- Decants creados desde el panel de administrador -->
+          <div class="col-lg-3 col-md-4 col-sm-6" th:each="decant : ${decants}">
+            <div
+              class="product-card decant-card"
+              th:attr="data-id='db-' + ${decant.id},
+                       data-name=${decant.nombre},
+                       data-price=${decant.precio},
+                       data-image=${decant.imageUrl},
+                       data-description=${decant.descripcion}"
+            >
+              <div class="position-relative">
+                <span class="badge-sale" th:text="${decant.tamano}">3ML</span>
+                <img th:if="${decant.imageUrl != null and !decant.imageUrl.isBlank()}"
+                     th:src="@{${decant.imageUrl}}" class="card-img-top" th:alt="${decant.nombre}" />
+              </div>
+              <div class="product-info mt-3 p-3 text-center">
+                <p class="text-muted small text-uppercase mb-1" th:text="${decant.marca}">Marca</p>
+                <h5 class="product-name mb-2" th:text="${decant.nombre}">Nombre</h5>
+                <p class="decant-price-label">Desde <strong th:text="'S/. ' + ${#numbers.formatDecimal(decant.precio, 1, 0)}">S/. 0</strong></p>
+                <button type="button" class="btn btn-outline-dark w-100 btn-view-product btn-dynamic-decant">VER PRODUCTO</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>

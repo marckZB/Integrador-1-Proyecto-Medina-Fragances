@@ -1,5 +1,6 @@
 package com.medina.fragrances.fragrance_app.controller;
 
+import com.medina.fragrances.fragrance_app.service.DecantService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
+
+    private final DecantService decantService;
+
+    public HomeController(DecantService decantService) {
+        this.decantService = decantService;
+    }
 
     @GetMapping({ "/", "/index.html" })
     public String home(HttpSession session, Model model) {
@@ -24,6 +31,7 @@ public class HomeController {
     @GetMapping({ "/decants", "/decants.html" })
     public String decants(HttpSession session, Model model) {
         model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
+        model.addAttribute("decants", decantService.listarTodos());
         return "decants";
     }
 
