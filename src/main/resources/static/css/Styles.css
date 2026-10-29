@@ -198,19 +198,73 @@ img {
 }
 
 /* 4. HERO SECTION */
+
 .hero-section {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1500 / 640;
-  min-height: 520px;
-  max-height: 680px;
-  background: url("../img/Banner.png") center center / cover no-repeat;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 72px;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1500 / 640;
+    min-height: 520px;
+    max-height: 680px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 72px;
+    overflow: hidden;
 }
+
+/* Contenedor de las imágenes */
+.hero-slider {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: transform 0.7s ease-in-out;
+}
+
+/* Cada imagen ocupa todo el banner */
+.hero-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Mantener los botones encima de las imágenes */
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Flechas del carrusel */
+.hero-prev,
+.hero-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.hero-prev {
+    left: 20px;
+}
+
+.hero-next {
+    right: 20px;
+}
+
+.hero-prev:hover,
+.hero-next:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+
 
 .hero-banner-actions {
   width: 100%;

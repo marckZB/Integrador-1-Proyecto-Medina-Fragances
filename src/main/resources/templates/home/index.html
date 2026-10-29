@@ -159,19 +159,55 @@
        HERO SECTION
        ========================================= -->
     <section class="hero-section">
-      <div class="container">
-        <div
-          class="hero-banner-actions d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center"
-        >
-          <a th:href="@{/decants}" class="btn-banner-decants"
-            >EXPLORAR DECANTS</a
-          >
-          <a th:href="@{/catalogo}" class="btn-banner-catalogo"
-            >VER BOTELLAS COMPLETAS</a
-          >
+
+    <!-- Imágenes del carrusel -->
+    <div class="hero-slider">
+
+        <div class="hero-slide"
+             style="background-image: url('/img/Banner.png');">
         </div>
-      </div>
-    </section>
+
+        <div class="hero-slide"
+             style="background-image: url('/img/Banner 2.jpg');">
+        </div>
+
+        <div class="hero-slide"
+             style="background-image: url('/img/Banner 3.jpg');">
+        </div>
+
+        <div class="hero-slide"
+             style="background-image: url('/img/Banner 4.jpg');">
+        </div>
+
+    </div>
+
+    <!-- Flechas para cambiar de imagen -->
+    <button class="hero-prev" type="button" aria-label="Imagen anterior">
+        &#10094;
+    </button>
+
+    <button class="hero-next" type="button" aria-label="Imagen siguiente">
+        &#10095;
+    </button>
+
+    <!-- Botones originales -->
+    <div class="container hero-content">
+
+        <div class="hero-banner-actions d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
+
+            <a th:href="@{/decants}" class="btn-banner-decants">
+                EXPLORAR DECANTS
+            </a>
+
+            <a th:href="@{/catalogo}" class="btn-banner-catalogo">
+                VER BOTELLAS COMPLETAS
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
     <!-- =========================================
        CARACTERÍSTICAS / FEATURES
@@ -811,5 +847,91 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="main/main.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slider = document.querySelector(".hero-slider");
+    const slides = document.querySelectorAll(".hero-slide");
+    const botonAnterior = document.querySelector(".hero-prev");
+    const botonSiguiente = document.querySelector(".hero-next");
+
+    if (!slider || !slides.length || !botonAnterior || !botonSiguiente) {
+        return;
+    }
+
+    // Duplicamos la primera imagen al final
+    const primeraImagenClonada = slides[0].cloneNode(true);
+    slider.appendChild(primeraImagenClonada);
+
+    let imagenActual = 0;
+    const totalImagenes = slides.length;
+    let enMovimiento = false;
+
+    function moverCarrusel() {
+        slider.style.transition = "transform 0.7s ease-in-out";
+        slider.style.transform = `translateX(-${imagenActual * 100}%)`;
+    }
+
+    function siguienteImagen() {
+        if (enMovimiento) return;
+
+        enMovimiento = true;
+        imagenActual++;
+        moverCarrusel();
+    }
+
+    function anteriorImagen() {
+        if (enMovimiento) return;
+
+        enMovimiento = true;
+
+        if (imagenActual === 0) {
+            slider.style.transition = "none";
+            imagenActual = totalImagenes;
+            slider.style.transform = `translateX(-${imagenActual * 100}%)`;
+
+            // Forzamos al navegador a aplicar el cambio
+            void slider.offsetWidth;
+        }
+
+        imagenActual--;
+        moverCarrusel();
+    }
+
+    slider.addEventListener("transitionend", function (evento) {
+
+        if (evento.target !== slider || evento.propertyName !== "transform") {
+            return;
+        }
+
+        if (imagenActual === totalImagenes) {
+            slider.style.transition = "none";
+            imagenActual = 0;
+            slider.style.transform = "translateX(0%)";
+        }
+
+        enMovimiento = false;
+    });
+
+    // Cambio automático cada 4 segundos
+    let temporizador = setInterval(siguienteImagen, 4000);
+
+    function reiniciarTemporizador() {
+        clearInterval(temporizador);
+        temporizador = setInterval(siguienteImagen, 4000);
+    }
+
+    botonSiguiente.addEventListener("click", function () {
+        siguienteImagen();
+        reiniciarTemporizador();
+    });
+
+    botonAnterior.addEventListener("click", function () {
+        anteriorImagen();
+        reiniciarTemporizador();
+    });
+
+});
+</script>
   </body>
 </html>
