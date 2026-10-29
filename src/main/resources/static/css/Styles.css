@@ -2833,9 +2833,10 @@ body.modal-open-soft {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 28px 22px;
+  padding: 20px 22px;
   background: #111111;
   color: #ffffff;
+  overflow-y: auto;
 }
 
 .admin-brand {
