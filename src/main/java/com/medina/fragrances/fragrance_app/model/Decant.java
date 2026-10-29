@@ -16,8 +16,8 @@ public class Decant {
     @Column(name = "marca", length = 100, nullable = false)
     private String marca;
 
-    @Column(name = "tamano", length = 20, nullable = false)
-    private String tamano = "3ml";
+    @Column(name = "tamano", length = 50, nullable = false)
+    private String tamano = "3ml - 10ml";
 
     @Column(name = "precio", nullable = false)
     private Double precio;
@@ -28,7 +28,7 @@ public class Decant {
     @Column(name = "image_url", length = 255)
     private String imageUrl;
 
-    @Column(name = "descripcion", length = 300)
+    @Column(name = "descripcion", length = 500)
     private String descripcion;
 
     public String getPrecioFormateado() {

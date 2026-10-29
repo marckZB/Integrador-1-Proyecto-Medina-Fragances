@@ -72,8 +72,10 @@ public class AdminController {
         }
 
         productoService.cargarProductosIniciales();
+        decantService.cargarDecantsIniciales();
 
         List<Producto> productos = productoService.listarSinDecants();
+        List<Decant> decants = decantService.listarTodos();
         List<Pedido> pedidos = pedidoService.listarTodos().stream()
                 .sorted(Comparator.comparing(Pedido::getId, Comparator.nullsLast(Integer::compareTo)).reversed())
                 .toList();
@@ -94,6 +96,8 @@ public class AdminController {
 
         long stockBajo = productos.stream()
                 .filter(producto -> producto.getStock() != null && producto.getStock() <= 5)
+                .count() + decants.stream()
+                .filter(decant -> decant.getStock() != null && decant.getStock() <= 5)
                 .count();
 
         Usuario admin = obtenerAdminActual(session);
@@ -104,7 +108,7 @@ public class AdminController {
         model.addAttribute("decantForm", editarDecant == null
                 ? new Decant()
                 : decantService.buscarPorId(editarDecant).orElse(new Decant()));
-        model.addAttribute("decants", decantService.listarTodos());
+        model.addAttribute("decants", decants);
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("clientes", clientes);
         model.addAttribute("mensajes", contactoService.listarTodos());

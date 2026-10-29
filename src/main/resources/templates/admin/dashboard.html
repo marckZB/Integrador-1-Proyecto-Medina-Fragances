@@ -157,6 +157,7 @@
                 <label>Marca <input type="text" th:field="*{marca}" required></label>
                 <label>Tamaño
                     <select th:field="*{tamano}">
+                        <option value="3ml - 10ml">3ml - 10ml</option>
                         <option value="3ml">3ml</option>
                         <option value="5ml">5ml</option>
                         <option value="10ml">10ml</option>
@@ -184,6 +185,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr th:if="${decants == null or decants.isEmpty()}">
+                        <td colspan="6" class="admin-empty text-center py-4">No hay decants registrados.</td>
+                    </tr>
                     <tr th:each="decant : ${decants}">
                         <td>
                             <div class="admin-product-cell">
@@ -198,9 +202,9 @@
                             <span class="admin-pill" th:classappend="${decant.stock <= 5} ? ' danger' : ''" th:text="${decant.stock}">0</span>
                         </td>
                         <td class="admin-actions">
-                            <a th:href="@{/admin#decants(editarDecant=${decant.id})}" class="admin-icon-btn"><i class="bi bi-pencil"></i></a>
+                            <a th:href="@{/admin(editarDecant=${decant.id})} + '#decants'" class="admin-icon-btn"><i class="bi bi-pencil"></i></a>
                             <form th:action="@{/admin/decants/eliminar/{id}(id=${decant.id})}" method="post">
-                                <button type="submit" class="admin-icon-btn danger" onclick="return confirm('Eliminar decant?')"><i class="bi bi-trash"></i></button>
+                                <button type="submit" class="admin-icon-btn danger" onclick="return confirm('¿Eliminar decant?')"><i class="bi bi-trash"></i></button>
                             </form>
                         </td>
                     </tr>

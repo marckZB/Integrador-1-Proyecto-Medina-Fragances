@@ -162,350 +162,37 @@
           </p>
         </div>
 
-        <!-- Grid de Productos Decants -->
+        <!-- Grid de Productos Decants Dinámicos desde Base de Datos -->
         <div class="row g-4 decants-grid">
-          <!-- Decant 1: Valentino -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <!-- NOTA: He añadido las clases y data-attributes necesarios para el JS -->
-            <div
-              class="product-card decant-card"
-              data-id="val-uomo"
-              data-name="Valentino Uomo Intense"
-              data-price="45"
-              data-image="img/Valentino Uomo.webp"
-              data-description="Fragancia elegante y sofisticada para el hombre moderno."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/Valentino Uomo.webp"
-                  class="card-img-top"
-                  alt="Valentino"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">Valentino</p>
-                <h5 class="product-name mb-2">Valentino Uomo Intense</h5>
-                <p class="decant-price-label">Desde <strong>S/. 45</strong></p>
-                <!-- Botón que llama a la función del Modal -->
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'val-uomo',
-                      'Valentino Uomo Intense',
-                      45,
-                      'img/Valentino Uomo.webp',
-                      'Fragancia elegante y sofisticada para el hombre moderno.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 2: JPG -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="jpg-male"
-              data-name="JPG Le Male"
-              data-price="20"
-              data-image="img/JEAN PAUL GAULTIER LE MALE.webp"
-              data-description="Un clásico atemporal con notas de lavanda y vainilla."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/JEAN PAUL GAULTIER LE MALE.webp"
-                  class="card-img-top"
-                  alt="JPG"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">
-                  JEAN PAUL GAULTIER
-                </p>
-                <h5 class="product-name mb-2">JEAN PAUL GAULTIER LE MALE</h5>
-                <p class="decant-price-label">Desde <strong>S/. 20</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'jpg-male',
-                      'JPG Le Male',
-                      20,
-                      'img/JEAN PAUL GAULTIER LE MALE.webp',
-                      'Un clásico atemporal con notas de lavanda y vainilla.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 3: 9PM -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="9pm"
-              data-name="Azzaro 9PM"
-              data-price="60"
-              data-image="img/9pm.webp"
-              data-description="Frescura masculina radical con notas de bergamota."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img src="img/9pm.webp" class="card-img-top" alt="9pm" />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">AZZARO</p>
-                <h5 class="product-name mb-2">9pm</h5>
-                <p class="decant-price-label">Desde <strong>S/. 60</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      '9pm',
-                      'Azzaro 9PM',
-                      60,
-                      'img/9pm.webp',
-                      'Frescura masculina radical con notas de bergamota.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 4: Khamrah -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="khamrah"
-              data-name="Lattafa Khamrah Dukhan"
-              data-price="75"
-              data-image="img/khamrah dukhan.webp"
-              data-description="Aroma dulce, especiado y adictivo."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/khamrah dukhan.webp"
-                  class="card-img-top"
-                  alt="Khamrah"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
-                <h5 class="product-name mb-2">Khamrah Dukhan</h5>
-                <p class="decant-price-label">Desde <strong>S/. 75</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'khamrah',
-                      'Lattafa Khamrah Dukhan',
-                      75,
-                      'img/khamrah dukhan.webp',
-                      'Aroma dulce, especiado y adictivo.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 5: Vintage Radio -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="vintage"
-              data-name="Vintage Radio"
-              data-price="55"
-              data-image="img/Vintage radio.webp"
-              data-description="Fragancia retro con un toque moderno."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/Vintage Radio.webp"
-                  class="card-img-top"
-                  alt="Vintage"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">MONTALE</p>
-                <h5 class="product-name mb-2">Vintage Radio</h5>
-                <p class="decant-price-label">Desde <strong>S/. 55</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'vintage',
-                      'Vintage Radio',
-                      55,
-                      'img/Vintage Radio.webp',
-                      'Fragancia retro con un toque moderno.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 6: Asad -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="asad"
-              data-name="Asad Bourbon"
-              data-price="65"
-              data-image="img/Asad Bourbon.webp"
-              data-description="Poderoso y masculino con notas de tabaco."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/Asad Bourbon.webp"
-                  class="card-img-top"
-                  alt="Asad"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
-                <h5 class="product-name mb-2">Asad Bourbon</h5>
-                <p class="decant-price-label">Desde <strong>S/. 65</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'asad',
-                      'Asad Bourbon',
-                      65,
-                      'img/Asad Bourbon.webp',
-                      'Poderoso y masculino con notas de tabaco.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 7: Amethyst -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="amethyst"
-              data-name="Amethyst"
-              data-price="50"
-              data-image="img/Amethyst.webp"
-              data-description="Elegancia y misterio en un frasco."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/Amethyst.webp"
-                  class="card-img-top"
-                  alt="Amethyst"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">MONTALE</p>
-                <h5 class="product-name mb-2">Amethyst</h5>
-                <p class="decant-price-label">Desde <strong>S/. 50</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'amethyst',
-                      'Amethyst',
-                      50,
-                      'img/Amethyst.webp',
-                      'Elegancia y misterio en un frasco.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decant 8: Shaheen -->
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div
-              class="product-card decant-card"
-              data-id="shaheen"
-              data-name="Shaheen Gold"
-              data-price="60"
-              data-image="img/Shaheen Gold.webp"
-              data-description="Un aroma dorado y sofisticado."
-            >
-              <div class="position-relative">
-                <span class="badge-sale">3ml - 10ml</span>
-                <img
-                  src="img/Shaheen Gold.webp"
-                  class="card-img-top"
-                  alt="Shaheen"
-                />
-              </div>
-              <div class="product-info mt-3 p-3 text-center">
-                <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
-                <h5 class="product-name mb-2">Shaheen Gold</h5>
-                <p class="decant-price-label">Desde <strong>S/. 60</strong></p>
-                <button
-                  class="btn btn-outline-dark w-100 btn-view-product"
-                  onclick="
-                    openDecantModal(
-                      'shaheen',
-                      'Shaheen Gold',
-                      60,
-                      'img/Shaheen Gold.webp',
-                      'Un aroma dorado y sofisticado.',
-                    )
-                  "
-                >
-                  VER PRODUCTO
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Decants creados desde el panel de administrador -->
           <div class="col-lg-3 col-md-4 col-sm-6" th:each="decant : ${decants}">
             <div
               class="product-card decant-card"
-              th:attr="data-id='db-' + ${decant.id},
+              style="cursor: pointer"
+              th:attr="data-id='decant-' + ${decant.id},
                        data-name=${decant.nombre},
+                       data-brand=${decant.marca},
                        data-price=${decant.precio},
                        data-image=${decant.imageUrl},
                        data-description=${decant.descripcion}"
             >
               <div class="position-relative">
-                <span class="badge-sale" th:text="${decant.tamano}">3ML</span>
-                <img th:if="${decant.imageUrl != null and !decant.imageUrl.isBlank()}"
-                     th:src="@{${decant.imageUrl}}" class="card-img-top" th:alt="${decant.nombre}" />
+                <span class="badge-sale" th:text="${decant.tamano != null and !decant.tamano.isBlank() ? decant.tamano : '3ml - 10ml'}">3ml - 10ml</span>
+                <img th:src="@{${decant.imageUrl != null and !decant.imageUrl.isBlank() ? decant.imageUrl : '/img/Decants - 1.webp'}}"
+                     class="card-img-top" th:alt="${decant.nombre}" />
               </div>
               <div class="product-info mt-3 p-3 text-center">
                 <p class="text-muted small text-uppercase mb-1" th:text="${decant.marca}">Marca</p>
                 <h5 class="product-name mb-2" th:text="${decant.nombre}">Nombre</h5>
-                <p class="decant-price-label">Desde <strong th:text="'S/. ' + ${#numbers.formatDecimal(decant.precio, 1, 0)}">S/. 0</strong></p>
+                <p class="decant-price-label">Desde <strong th:text="'S/. ' + ${(decant.precio % 1 == 0) ? #numbers.formatDecimal(decant.precio, 1, 0) : #numbers.formatDecimal(decant.precio, 1, 2)}">S/. 0</strong></p>
                 <button type="button" class="btn btn-outline-dark w-100 btn-view-product btn-dynamic-decant">VER PRODUCTO</button>
               </div>
             </div>
+          </div>
+
+          <!-- Mensaje cuando no hay decants -->
+          <div th:if="${decants == null or decants.isEmpty()}" class="col-12 text-center py-5">
+            <i class="bi bi-droplet display-4 text-muted d-block mb-3"></i>
+            <p class="text-muted lead">No hay decants disponibles en este momento.</p>
           </div>
         </div>
       </div>

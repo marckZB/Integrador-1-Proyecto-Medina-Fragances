@@ -30,6 +30,7 @@ public class HomeController {
 
     @GetMapping({ "/decants", "/decants.html" })
     public String decants(HttpSession session, Model model) {
+        decantService.cargarDecantsIniciales();
         model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
         model.addAttribute("decants", decantService.listarTodos());
         return "decants";
