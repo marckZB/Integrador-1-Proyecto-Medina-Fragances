@@ -336,25 +336,33 @@ let currentDecantProduct = {};
 let selectedSize = 5; // Por defecto 5ml
 const sizeMultipliers = { 3: 0.65, 5: 1.0, 10: 1.9 }; // Factores de precio
 
-function openDecantModal(id, title, basePrice, image, desc) {
-  currentDecantProduct = { id, title, basePrice, image, desc };
+function openDecantModal(id, title, basePrice, image, desc, brand) {
+  currentDecantProduct = { id, title, basePrice, image, desc, brand };
   selectedSize = 5; // Resetear a 5ml al abrir
 
   // Actualizar contenido del modal
   document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalBrand').textContent = title.split(' ')[0]; // Marca aproximada
-  document.getElementById('modalImg').src = image;
-  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalBrand').textContent = brand || title.split(' ')[0];
+  let imgSrc = image || '';
+  if (imgSrc && !imgSrc.startsWith('/') && !imgSrc.startsWith('http')) {
+    imgSrc = '/' + imgSrc;
+  }
+  document.getElementById('modalImg').src = imgSrc;
+  document.getElementById('modalDesc').textContent = desc || '';
 
   // Resetear botones de tamaño visualmente
   document.querySelectorAll('.size-option').forEach(btn => btn.classList.remove('active'));
-  document.querySelector('.size-option:nth-child(2)').classList.add('active'); // Seleccionar 5ml visualmente
+  const defaultOpt = document.querySelector('.size-option:nth-child(2)');
+  if (defaultOpt) defaultOpt.classList.add('active');
 
   updateModalPrice();
 
   // Mostrar Modal
-  const modal = new bootstrap.Modal(document.getElementById('decantModal'));
-  modal.show();
+  const modalEl = document.getElementById('decantModal');
+  if (modalEl && window.bootstrap && bootstrap.Modal) {
+    const modal = bootstrap.Modal.getOrCreateInstance ? bootstrap.Modal.getOrCreateInstance(modalEl) : new bootstrap.Modal(modalEl);
+    modal.show();
+  }
 }
 
 function selectDecantSize(size) {
@@ -410,7 +418,8 @@ function bindDecantCardModal() {
         card.dataset.name,
         parseFloat(card.dataset.price || '0'),
         card.dataset.image,
-        card.dataset.description || ''
+        card.dataset.description || '',
+        card.dataset.brand || ''
       );
     });
   });
