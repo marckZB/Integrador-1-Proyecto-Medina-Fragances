@@ -17,7 +17,7 @@ public class Decant {
     private String marca;
 
     @Column(name = "tamano", length = 50, nullable = false)
-    private String tamano = "3ml - 10ml";
+    private String tamano = "3ml";
 
     @Column(name = "precio", nullable = false)
     private Double precio;

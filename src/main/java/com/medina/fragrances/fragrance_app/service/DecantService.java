@@ -36,7 +36,7 @@ public class DecantService {
             }
         }
         if (decant.getTamano() == null || decant.getTamano().isBlank()) {
-            decant.setTamano("3ml - 10ml");
+            decant.setTamano("3ml");
         }
         return decantRepository.save(decant);
     }
